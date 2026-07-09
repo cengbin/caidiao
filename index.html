@@ -65,12 +65,26 @@
         </div>
 
         <div class="panel-section">
-            <div class="panel-title">预设效果</div>
-            <div class="preset-grid">
-                <button class="btn" v-for="(preset, name) in presets" :key="name"
-                        @click="applyPreset(name)">
-                    {{ preset.label }}
-                </button>
+            <div class="panel-title">滤镜</div>
+            <div class="creative-filter-panel">
+                <div class="category-group" v-for="category in creativeFilterCategories" :key="category.key">
+                    <div class="category-header" @click="toggleCategory(category.key)">
+                        <span class="category-name">{{ category.name }}</span>
+                        <span class="category-count">{{ category.filters.length }}</span>
+                        <span class="category-arrow" :class="{ expanded: expandedCategories[category.key] }">▼</span>
+                    </div>
+                    <div class="category-content" v-show="expandedCategories[category.key]">
+                        <div class="filter-grid">
+                            <div class="filter-item" v-for="filter in category.filters" :key="filter.key">
+                                <v-tooltip :content="getFilterTooltip(filter)" placement="right">
+                                    <button class="btn" @click="applyCreativeFilter(filter)">
+                                        {{ filter.name }}
+                                    </button>
+                                </v-tooltip>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </aside>

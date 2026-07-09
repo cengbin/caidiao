@@ -1,5 +1,6 @@
 import { ImageEditor } from './ImageEditor.js';
 import { ImageLoader } from './ImageLoader.js';
+import { creativeFilterCategories } from './creativeFilters.js';
 
 // 默认调整参数
 var DEFAULT_ADJUSTMENTS = {
@@ -46,17 +47,9 @@ new Vue({
                 { key: 'toneCurve', label: '色调曲线', min: -100, max: 100, description: '定义：精细调整明暗层次\n效果：增强对比 ↔ 降低对比\n场景：专业调色' }
             ],
 
-            // 预设
-            presets: {
-                original: { label: '原始', brightness: 0, contrast: 0, saturation: 0, hue: 0, lightness: 0, colorTemperature: 0, exposure: 0, highlights: 0, shadows: 0, vibrance: 0, clarity: 0, toneCurve: 0 },
-                bright: { label: '明亮', brightness: 30, contrast: 10, saturation: 5, hue: 0, lightness: 0, colorTemperature: 0, exposure: 10, highlights: 10, shadows: 0, vibrance: 0, clarity: 0, toneCurve: 0 },
-                dark: { label: '暗调', brightness: -30, contrast: 20, saturation: -10, hue: 0, lightness: 0, colorTemperature: 0, exposure: -10, highlights: 0, shadows: -20, vibrance: 0, clarity: 0, toneCurve: 0 },
-                'high-contrast': { label: '高对比', brightness: 0, contrast: 50, saturation: 20, hue: 0, lightness: 0, colorTemperature: 0, exposure: 0, highlights: -10, shadows: -10, vibrance: 0, clarity: 20, toneCurve: 30 },
-                grayscale: { label: '黑白', brightness: 0, contrast: 10, saturation: -100, hue: 0, lightness: 0, colorTemperature: 0, exposure: 0, highlights: 0, shadows: 0, vibrance: 0, clarity: 0, toneCurve: 0 },
-                warm: { label: '暖色', brightness: 10, contrast: 5, saturation: 20, hue: 20, lightness: 0, colorTemperature: 30, exposure: 0, highlights: 0, shadows: 0, vibrance: 10, clarity: 0, toneCurve: 0 },
-                cool: { label: '冷色', brightness: 0, contrast: 10, saturation: -10, hue: -20, lightness: 0, colorTemperature: -30, exposure: 0, highlights: 0, shadows: 0, vibrance: 0, clarity: 0, toneCurve: 0 },
-                vintage: { label: '复古', brightness: -10, contrast: 20, saturation: -30, hue: 10, lightness: 0, colorTemperature: 20, exposure: -10, highlights: -10, shadows: 10, vibrance: -20, clarity: -10, toneCurve: -20 }
-            },
+            // 创意滤镜分类
+            creativeFilterCategories: creativeFilterCategories,
+            expandedCategories: { presets: true, retro: true, 'color-art': true, 'light-effect': true, texture: true, geometric: true, 'art-style': true, mood: true },
 
             // 编辑器实例
             editor: null
@@ -200,12 +193,17 @@ new Vue({
                 this.isPreview = true;
             }
         },
-        applyPreset: function (name) {
-            var preset = this.presets[name];
-            if (!preset) return;
-            this.adjustments = Object.assign({}, preset);
+        toggleCategory: function (key) {
+            this.$set(this.expandedCategories, key, !this.expandedCategories[key]);
+        },
+        applyCreativeFilter: function (filter) {
+            if (!filter || !filter.params) return;
+            this.adjustments = Object.assign({}, filter.params);
             this.editor.applyFilters();
-            this.setStatus('已应用预设: ' + preset.label, true);
+            this.setStatus('已应用滤镜: ' + filter.name, true);
+        },
+        getFilterTooltip: function (filter) {
+            return '适用场景：' + filter.scene + '\n效果描述：' + filter.description;
         }
     }
 });

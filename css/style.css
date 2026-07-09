@@ -385,3 +385,106 @@ body {
 .v-tooltip-fade-leave-to {
     opacity: 0;
 }
+
+/* 创意滤镜面板样式 */
+.creative-filter-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.category-group {
+    border: 1px solid #f0f0f0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    background: #fafafa;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+.category-header:hover {
+    background: #f0f0f0;
+}
+
+.category-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+}
+
+.category-count {
+    font-size: 12px;
+    color: #999;
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-right: 8px;
+}
+
+.category-arrow {
+    font-size: 10px;
+    color: #999;
+    transition: transform 0.2s;
+}
+
+.category-arrow.expanded {
+    transform: rotate(180deg);
+}
+
+.category-content {
+    padding: 8px;
+    background: #fff;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.filter-item {
+    width: 100%;
+}
+
+.filter-btn {
+    width: 100%;
+    padding: 0;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    overflow: hidden;
+}
+
+.filter-btn:hover {
+    border-color: #1890ff;
+    box-shadow: 0 2px 8px rgba(24, 144, 255, 0.2);
+}
+
+.filter-btn:active {
+    background: #e6f7ff;
+}
+
+.filter-name {
+    display: block;
+    padding: 6px 8px;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.filter-btn:hover .filter-name {
+    color: #1890ff;
+}
