@@ -22,18 +22,22 @@ body {
     justify-content: center;
     position: relative;
     overflow: hidden;
+    min-width: 0;
 }
 
 .canvas-wrapper {
     position: relative;
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
+    max-width: 100%;
+    max-height: 100%;
+    padding: 20px;
 }
 
 .canvas-info-bar {
     position: absolute;
-    bottom: 8px;
-    right: 8px;
+    bottom: 28px;
+    right: 28px;
     display: flex;
     gap: 8px;
     align-items: center;
@@ -45,12 +49,14 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .canvas-container canvas {
     display: block;
     max-width: 100%;
-    max-height: 100%;
+    max-height: calc(100vh - 80px);
 }
 
 .upload-overlay {

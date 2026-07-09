@@ -72,6 +72,20 @@ new Vue({
     },
     mounted: function () {
         this.editor = new ImageEditor(this.$refs.canvas);
+
+        // 窗口大小变化时重新计算缩放
+        var self = this;
+        this._resizeHandler = function () {
+            if (self.editor && self.hasImage) {
+                self.editor.updateDisplayScale();
+            }
+        };
+        window.addEventListener('resize', this._resizeHandler);
+    },
+    beforeDestroy: function () {
+        if (this._resizeHandler) {
+            window.removeEventListener('resize', this._resizeHandler);
+        }
     },
     methods: {
         setStatus: function (text, active) {

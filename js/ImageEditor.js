@@ -46,6 +46,30 @@ export class ImageEditor {
 
         // 调整参数
         this.adjustments = Object.assign({}, DEFAULT_ADJUSTMENTS);
+
+        // 缩放相关
+        this.displayScale = 1;
+    }
+
+    /**
+     * 计算并应用显示缩放
+     * 大图片按比例缩小显示，小图片保持原始尺寸
+     */
+    updateDisplayScale() {
+        if (!this.imageWidth || !this.imageHeight) return;
+
+        var container = this.canvas.parentElement;
+        var availWidth = container.clientWidth;
+        var availHeight = window.innerHeight - 80;
+
+        // 计算缩放比例（不超过 1，即不放大）
+        var scaleX = availWidth / this.imageWidth;
+        var scaleY = availHeight / this.imageHeight;
+        this.displayScale = Math.min(scaleX, scaleY, 1);
+
+        // 应用显示尺寸
+        this.canvas.style.width = (this.imageWidth * this.displayScale) + 'px';
+        this.canvas.style.height = (this.imageHeight * this.displayScale) + 'px';
     }
 
     /**
@@ -56,12 +80,16 @@ export class ImageEditor {
         this.imageWidth = img.width;
         this.imageHeight = img.height;
 
+        // 内部分辨率保持原始尺寸（用于滤镜处理）
         this.canvas.width = img.width;
         this.canvas.height = img.height;
 
         this.ctx.drawImage(img, 0, 0);
 
         this.originalImageData = this.ctx.getImageData(0, 0, img.width, img.height);
+
+        // 更新显示缩放
+        this.updateDisplayScale();
     }
 
     /**
@@ -139,6 +167,11 @@ export class ImageEditor {
         this.imageWidth = 0;
         this.imageHeight = 0;
         this.adjustments = Object.assign({}, DEFAULT_ADJUSTMENTS);
+
+        // 重置显示尺寸
+        this.canvas.style.width = '';
+        this.canvas.style.height = '';
+        this.displayScale = 1;
     }
 
     /**
