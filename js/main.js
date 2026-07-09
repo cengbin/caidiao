@@ -203,7 +203,7 @@ new Vue({
             this.setStatus('已应用滤镜: ' + filter.name, true);
         },
         getFilterTooltip: function (filter) {
-            return '适用场景：' + filter.scene + '\n效果描述：' + filter.description;
+            return filter.description;
         }
     }
 });
